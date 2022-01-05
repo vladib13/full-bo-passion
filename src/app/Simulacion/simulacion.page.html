@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Simulación
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Simulación</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-card *ngFor="let goal of goals">
+    <ion-card-header>
+      <ion-item>
+        <ion-icon name="trophy" slot="start"></ion-icon>
+        <ion-card-title>
+          Para tu meta de {{goal?.type}} lograste ahorrar ${{goal?.savingAmount}} de ${{goal?.amount}} que deseabas antes de {{formattedDate(goal?.date)}}
+        </ion-card-title>
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card *ngFor="let rule of goal?.rules">
+        <ion-item>
+          <ion-icon name="football" slot="start"></ion-icon>
+          <ion-label>Gracias a que el {{rule?.teamName}} {{rule?.event}}, lograste ahorrar ${{rule?.savingAmount}}</ion-label>
+        </ion-item>
+        <ion-card-content>
+          <ion-chip *ngFor="let saving of rule?.savings">
+            <ion-avatar>
+              <img [src]="saving?.imageUrl">
+            </ion-avatar>
+            <ion-label>${{saving?.savingAmount}} ahorrado por {{saving?.ruleType}} contra el {{saving?.rival}} el {{saving?.matchDay}}</ion-label>
+          </ion-chip>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+  
+<!--   
+  <ion-card>
+    <ion-item href="#" class="ion-activated">
+      <ion-icon name="wifi" slot="start"></ion-icon>
+      <ion-label>Card Link Item 1 activated</ion-label>
+    </ion-item>
+  </ion-card> -->
+  <!-- <ion-chip>
+    <ion-avatar>
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+    </ion-avatar>
+    <ion-label>$300 ahorrado por jugar contra Wolverhampton United el día 25-2-2010</ion-label>
+  </ion-chip> -->
+</ion-content>

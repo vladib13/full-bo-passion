@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Lista de Metas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Lista de Metas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-item *ngFor="let goal of goals">
+    <ion-avatar slot="start">
+      <img src="../../assets/icon.png">
+    </ion-avatar>
+    <ion-label>
+      <h2>{{goal?.type}}</h2>
+      <p>{{formattedDate(goal?.date)}}</p>
+    </ion-label>
+    <ion-label color="primary">
+      <b>${{goal?.amount}}</b>
+    </ion-label>
+    <ion-item>
+      <ion-button (click)="goToCreate(goal?.id)" fill="outline" slot="end">Editar</ion-button>
+      <ion-button (click)="deleteGoal(goal?.id)" fill="outline" slot="end" color="danger">Eliminar</ion-button>
+    </ion-item>
+  </ion-item>
+  <ion-fab (click)="goToCreate()" title="Crear Meta" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
+</ion-content>

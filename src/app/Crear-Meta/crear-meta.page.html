@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      {{goal?.value?.id ? 'Editar' : 'Nueva'}} Meta
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{goal?.value?.id ? 'Editar' : 'Nueva'}} Meta</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <form *ngIf="goal" (ngSubmit)="onSubmit()" [formGroup]="goal">
+    <ion-item>
+      <ion-label color="secondary" position="fixed">Meta</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Tipo de Meta:</ion-label>
+      <ion-input placeholder="Viajar" formControlName="type"></ion-input>
+    </ion-item>
+    <ion-item position="fixed" button="true" id="open-date-input">
+      <ion-label>Fecha:</ion-label>
+      <ion-input readonly [value]="formattedDate(goal?.value?.date)"></ion-input>
+      <ion-popover trigger="open-date-input" show-backdrop="false">
+        <ng-template>
+          <ion-datetime
+            #popoverDatetime
+            presentation="date"
+            formControlName="date"
+            [min]="minDate"
+          ></ion-datetime>
+        </ng-template>
+      </ion-popover>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Monto:</ion-label>
+      <ion-input type="number" placeholder="100" formControlName="amount">$</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="secondary" position="fixed">Reglas</ion-label>
+    </ion-item>
+    <ng-container *ngIf="goal?.get('rules')?.controls && teams" formArrayName="rules" >
+      <ng-container *ngFor="let rule of goal?.get('rules')?.controls; let i = index">
+        <ion-item class="row" [formGroup]="rule">
+          <ion-item class="col-3">
+            <ion-label position="floating">Equipo Premier League</ion-label>
+            <ion-select formControlName="teamId" interface="action-sheet">
+              <ion-select-option *ngFor="let team of teams" [value]="team.id">{{team.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="col-3">
+            <ion-label position="floating">Monto</ion-label>
+            <ion-input type="number" placeholder="100" formControlName="amount">$</ion-input>
+          </ion-item> 
+          <ion-item class="col-3">
+            <ion-label position="floating">Evento</ion-label>
+            <ion-select formControlName="event" interface="alert">
+              <ion-select-option *ngFor="let event of events" [value]="event">{{event}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="goal?.get('rules')?.controls.length > 1" slot="end">
+            <ion-button color="danger" (click)="deleteRule(i)">
+              <ion-icon name="remove"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+    <ion-button type="submit" color="primary" expand="full">Guardar</ion-button>
+  </form>
+  <ion-fab *ngIf="goal?.get('rules')?.controls.length < 5" (click)="addRule()"title="Crear Regla" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NavigationGuard } from '../guards/navigation.guard';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
@@ -8,27 +9,29 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'metas',
+        loadChildren: () => import('../Metas/metas.module').then(m => m.MetasPageModule),
+        canActivate: [NavigationGuard]
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'crear-meta',
+        loadChildren: () => import('../Crear-Meta/crear-meta.module').then(m => m.CrearMetaPageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'simulacion',
+        loadChildren: () => import('../Simulacion/simulacion.module').then(m => m.SimulacionPageModule),
+        canActivate: [NavigationGuard]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/metas',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/metas',
     pathMatch: 'full'
   }
 ];
